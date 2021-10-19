@@ -1,0 +1,206 @@
+<p-toast position="top-right"></p-toast>
+<p-contextMenu #cm [model]="items"></p-contextMenu>
+
+
+<p-tabView>
+    <p-tabPanel header="Products">
+        <p-table [value]="products" dataKey="name" responsiveLayout="scroll"  #dt2 sortMode="multiple" 
+        [(selection)]="selectedProduct"  selectionMode="single"
+        [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]"
+        [(contextMenuSelection)]="selectedProduct" [contextMenu]="cm"
+        [globalFilterFields]="['name','category','status']">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex">
+                <span class="p-input-icon-left p-ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')" placeholder="Enter a word to find" style="width: 300px" />
+                </span>
+            </div>
+        </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+              
+                  
+                    <th style="width: 6%;"  pSortableColumn="name">
+                        <div class="p-d-flex p-jc-between p-ai-center">
+                            NAME
+                            <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+                            <p-sortIcon field="name"></p-sortIcon>
+                        </div>
+                    </th>
+                    <th style="width: 7%;" pSortableColumn="category">
+                        <div class="p-d-flex p-jc-between p-ai-center">
+                            CATEGORY
+                            <p-columnFilter type="text" field="category" display="menu"></p-columnFilter>
+                            <p-sortIcon field="category"></p-sortIcon>
+                        </div>
+                    </th>
+
+                    <th style="width: 7%;" pSortableColumn="status">
+                        <div class="p-d-flex p-jc-between p-ai-center">
+                            STATUS
+                            <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
+                            <p-sortIcon field="status"></p-sortIcon>
+                        </div>
+                    </th>
+                    <th style="width: 7%;" pSortableColumn="price">
+                        <div class="p-d-flex p-jc-between p-ai-center">
+                            PRICE
+                            <p-columnFilter type="text" field="price" display="menu"></p-columnFilter>
+                            <p-sortIcon field="price"></p-sortIcon>
+                        </div>
+                    </th>
+                </tr>
+    
+      
+    
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+                <tr  [pSelectableRow]="productSelected" [pContextMenuRow]="productSelected">
+                    
+                    <td >
+                        {{product.name}}
+                    </td>
+                    <td >
+                        {{product.category}}
+                    </td>
+                    <td >
+                        {{product.status}}
+                    </td>
+                    <td >
+                        {{product.price}}
+                    </td>
+                
+                </tr>
+            </ng-template>
+        </p-table>
+  
+
+     </p-tabPanel>
+
+     <p-tabPanel header="New Product">
+
+        <span class="p-float-label">
+            <input id="float-input" type="text" pInputText [(ngModel)]="productNew.name"> 
+            <label for="float-input">Name</label>
+        </span><br/>
+        <span class="p-float-label">
+            <input id="float-input" type="text" pInputText [(ngModel)]="productNew.category"> 
+            <label for="float-input">Category</label>
+        </span><br/>
+        <span class="p-float-label">
+            <input id="float-input" type="number" pInputText [(ngModel)]="productNew.price"> 
+            <label for="float-input">Price</label>
+        </span><br/>
+
+        <button pButton type="button" label="SAVE" (click)="save()"></button>
+    </p-tabPanel>
+
+   <p-tabPanel header="Orders">
+    <p-table [value]="orders" dataKey="number" responsiveLayout="scroll"  #dt3 sortMode="multiple" 
+    [(selection)]="orderSelected"  selectionMode="single"
+    [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]"
+    [(contextMenuSelection)]="selectedProduct" [contextMenu]="cm"
+    [globalFilterFields]="['number','client','status']">
+    <ng-template pTemplate="caption">
+        <div class="p-d-flex">
+            <span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt3.filterGlobal($event.target.value, 'contains')" placeholder="Enter a word to find" style="width: 300px" />
+            </span>
+        </div>
+    </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+          
+              
+                <th style="width: 6%;"  pSortableColumn="number">
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                        NUMBER
+                        <p-columnFilter type="text" field="number" display="menu"></p-columnFilter>
+                        <p-sortIcon field="number"></p-sortIcon>
+                    </div>
+                </th>
+                <th style="width: 7%;" pSortableColumn="client">
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                        CONSUMER
+                        <p-columnFilter type="text" field="client" display="menu"></p-columnFilter>
+                        <p-sortIcon field="client"></p-sortIcon>
+                    </div>
+                </th>
+
+                <th style="width: 7%;" pSortableColumn="dateOrder">
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                        DATE
+                        <p-columnFilter type="text" field="dateOrder" display="menu"></p-columnFilter>
+                        <p-sortIcon field="dateOrder"></p-sortIcon>
+                    </div>
+                </th>
+                <th style="width: 7%;" pSortableColumn="taxAmounts">
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                        TOTAL
+                        <p-columnFilter type="text" field="taxAmounts" display="menu"></p-columnFilter>
+                        <p-sortIcon field="taxAmounts"></p-sortIcon>
+                    </div>
+                </th>
+            </tr>
+
+  
+
+        </ng-template>
+        <ng-template pTemplate="body" let-order>
+            <tr  [pSelectableRow]="orderSelected" [pContextMenuRow]="orderSelected">
+                
+                <td >
+                    {{order.number}}
+                </td>
+                <td >
+                    {{order.client}}
+                </td>
+                <td >
+                    {{order.dateOrder}}
+                </td>
+                <td >
+                   $ {{order.taxAmounts}}
+                </td>
+            
+            </tr>
+        </ng-template>
+    </p-table>
+
+    </p-tabPanel>
+    <p-tabPanel header="New Order">
+
+    <b>URL: http://localhost:8080/order/</b><br/><br/>
+    <b>PAYLOAD: </b><br/><br/>
+
+    <div class="p-field p-col-12 p-md-4">
+        <span class="p-float-label">
+            <textarea inputId="textarea" rows="30" style="resize: none;" cols="30" readonly pInputTextarea>
+                {
+                    "number":"00000003",
+                    "status":"pending",
+                    "dateOrder":"2020-01-01",
+                    "client":"ABC Company",
+                    "taxAmounts": 10.0,
+                    "totalTaxes":5.0,
+                    "totalQuantity":15.0,
+                    "details":[{
+                        "product":"Produc 1",
+                        "quantity":1.0,
+                        "unitPrice":15.0,
+                        "cost":15.0
+                    }]
+                }
+            </textarea>
+        </span>
+    </div>
+
+    </p-tabPanel>
+
+    
+</p-tabView>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
